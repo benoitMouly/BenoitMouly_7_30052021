@@ -16,14 +16,14 @@ const routes = [
     }
   },
 
-  {
+  /*{
   path: '/profil',
   name: 'Profil',
   component: () => import('../views/Profil.vue'),
   meta: {
 
   }
-  },
+  },*/
 
   /*{
     path: '/UserProfile/items.userId',
