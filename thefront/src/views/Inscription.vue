@@ -1,73 +1,75 @@
 <template>
     <div id="inscriptionMain">
-        <div class="logoInscription">
-                    <img src='../assets/icon-left-font-monochrome-black.svg' class="logoConnexionPage"/>
-        </div>
         <div class="messageInscription">
             <h3>Nouveau sur l'app Groupomania ? Installes-toi !</h3>
         </div>
             <div class="boxMain">
               <form name="form" @submit.prevent="handleRegister" class="informationsRegister">
-        <div v-if="!successful">
-          <div class="form-group">
-              <input @change='onFileSelected' type="file" id="fileField" name="file" required ref="file">
-            <label for="username" id="pseudoField">Username</label>
-            <input
-              v-model="user.username"
-              v-validate="'required|min:3|max:20'"
-              type="text"
-              class="form-control"
-              name="username"
-              id="pseudoField"
-            />
-            <div
-              v-if="submitted && errors.has('username')"
-              class="alert-danger"
-            >{{errors.first('username')}}</div>
-          </div>
-          <div class="form-group">
-            <label for="email" id="emailField">Email</label>
-            <input
-              v-model="user.email"
-              v-validate="'required|email|max:50'"
-              type="email"
-              class="form-control"
-              name="email"
-              id="emailField"
-            />
-            <div
-              v-if="submitted && errors.has('email')"
-              class="alert-danger"
-            >{{errors.first('email')}}</div>
-          </div>
-          <div class="form-group">
-            <label for="password" id="mdpField">Password</label>
-            <input
-              v-model="user.password"
-              v-validate="'required|min:6|max:40'"
-              type="password"
-              class="form-control"
-              name="password"
-              id="mdpField"
-            />
-            <div
-              v-if="submitted && errors.has('password')"
-              class="alert-danger"
-            >{{errors.first('password')}}</div>
-          </div>
-          <div class="form-group">
-            <button class="validateRegister">
-              <span>SignUp</span>
-              </button>
-          </div>
-        </div>
-      </form>
-      <div
-        v-if="message"
-        class="alert"
-        :class="successful ? 'alert-success' : 'alert-danger'"
-      >{{message}}</div>
-    </div>
+                <div v-if="!successful">
+                  <div class="form-group">
+                      <input @change='onFileSelected' type="file" id="fileField" name="image_field" required
+                      accept="image/png, image/jpeg, image/bpm, image/jpg, image/gif">      
+                    <label for="username" id="pseudoField">Username</label>
+                      <input
+                      minlength="4"
+                      v-model="user.username"
+                      required
+                      type="text"
+                      class="form-control"
+                      name="username"
+                      id="pseudoField"
+                    />
+                  <div
+                      v-if="submitted && errors.has('username')"
+                      class="alert-danger"
+                  >{{errors.first('username')}}</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="email" id="emailField">Email</label>
+                    <input
+                    v-model="user.email"
+                    required
+                    type="email"
+                    class="form-control"
+                    name="email"
+                    id="emailField"
+                    placeholder="Ex: dwayne@johnsonmail.com"
+                    />
+                  <div
+                    v-if="submitted && errors.has('email')"
+                    class="alert-danger"
+                  >{{errors.first('email')}}</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="password" id="mdpField" >Password</label>
+                  <input
+                    v-model="user.password"
+                    type="password"
+                    class="form-control"
+                    name="password"
+                    id="mdpField"
+                    placeholder="8 caractères mini, lettres chiffres et caractères spéciaux"
+                    required
+                  />
+                  <div
+                    v-if="submitted && errors.has('password')"
+                    class="alert-danger"
+                  >{{errors.first('password')}}</div>
+                </div>
+                <div class="form-btn">
+                  <button class="validateRegister">
+                    <span>S'inscrire</span>
+                    </button>
+                </div>
+                </div>
+                <div class="form group error"
+                v-if="message"
+                :class="successful ? 'alert-success' : 'alert-danger'"
+                ><p>{{message}}</p></div>
+              </form>
+            </div>
     </div>
 </template>
 
@@ -80,7 +82,6 @@ export default {
   name: 'Register',
   data() {
     return {
-      
       submitted: false,
       successful: false,
       message: '',
@@ -98,18 +99,13 @@ export default {
       console.log(this.selectedFile)
 
       
-    },
-
-
-
-          
+    },     
  
-   handleRegister() {
+    handleRegister() {
 
       this.$validator.validate().then(isValid => {
-        if (isValid) {
+        if (/\S/.test(this.user.username) && isValid) { //Si il n'y a pas d'espaces excessifs et que le formulaire est vee-validate
 
-      
       const formData = new FormData()
       formData.append('image', this.selectedFile)
       formData.append('username', this.user.username)
@@ -125,11 +121,14 @@ export default {
             error => {
               this.message =
                 (error.response && error.response.data) ||
-                error.message ||
+                error ||
                 error.toString();
               this.successful = false;
             }
           );
+        }
+        else{
+          this.message = "Veuillez rentrer un pseudo valide.";
         }
       });
     },
@@ -140,49 +139,52 @@ export default {
 
 
 <style scoped>
+
 #inscriptionMain{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items:center;
-    margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+  margin-top: 2rem;
 }
+
+.logoInscription{
+  height: 100%;
+  width: 100%;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  flex-shrink:0;
+  flex-grow:0;
+}
+
 .boxMain{
-    background-color: rgba(0, 0, 0, 0.89);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 0% 5% 0% 5%;
-    color: white;
-    border-radius: 2%;
+  background-color: rgba(0, 0, 0, 0.89);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  border-radius: 2%;
+  flex-shrink:0;
+  flex-grow:0;
 }
 
 .titleBox{
-    text-align: center;
-    margin: 2rem;
-    text-transform: uppercase;
-    text-decoration: overline;
+  text-align: center;
+  margin: 2rem;
+  text-transform: uppercase;
+  text-decoration: overline;
 }
 .informationsRegister{
-
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   row-gap: 2rem;
   margin: 2rem;
-    
 }
+
 #pseudoField, #mdpField, #fileField, #emailField {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   text-align: center;
   line-height: 2rem;
-
 }
 
 .validateRegister{
@@ -194,14 +196,40 @@ export default {
 
 }
 
+.form-btn{
+text-align: center;
+}
+
 .newUser, a{
-    color: white;
-    outline: none;
-    text-align: center;
+  color: white;
+  outline: none;
+  text-align: center;
 
 }
 
-button{
+.error{
+  width: 100%;
+  background: #C40030;
+  text-align: center;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1rem;
+}
+
+.validateRegister{
+  margin-top: 1rem;
+  height: 2.5rem;
+  background-color: green;
+  color: white;
   border: none;
+  border: solid 2px white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: .4s ease;
+}
+
+.validateRegister:hover{
+  transform: scale(1.07);
 }
 </style>

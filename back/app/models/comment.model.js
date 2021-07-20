@@ -17,11 +17,9 @@ module.exports = (sequelize, Sequelize) => {
             type : Sequelize.DATE,
 
             get() {
-                return moment(this.getDataValue('createdAt')).format('DD/MM/YYYY à hh:mm:ss');
+                return moment(this.getDataValue('createdAt')).format('DD/MM/YYYY à hh:mm:ss a');
             }
         }
     });
-
-    
       return Comment;
   };

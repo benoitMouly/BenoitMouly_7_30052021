@@ -13,27 +13,9 @@ const routes = [
     name: 'home',
     component: Home,
     meta: {
+      requiresAuth: true
     }
   },
-
-  /*{
-  path: '/profil',
-  name: 'Profil',
-  component: () => import('../views/Profil.vue'),
-  meta: {
-
-  }
-  },*/
-
-  /*{
-    path: '/UserProfile/items.userId',
-    name: 'userProfile',
-    props : true,
-    component: () =>import('../views/UserProfil.vue'),
-    meta: {
-    }
-  },*/
-
   {
     path: '/register',
     name: 'register',
@@ -42,7 +24,7 @@ const routes = [
     }
   },
   {
-   path: '/UserProfile/:id',
+   path: '/profile/:id',
    name: 'userProfile',
    component: () =>import('../views/UserProfil.vue'),
   props: true
@@ -55,28 +37,21 @@ const routes = [
     meta: {
     }
   },
-  {
-    path:'/bienvenue',
-    name: 'bienvenue',
-    component: () =>import('../views/Bienvenue.vue'),
-    meta: {
-    }
-  },
-
   ]
+
 const router  =  new VueRouter({
   mode: "history", routes});
 
-/*router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
 
-    if (!localStorage.getItem('token') && (to.name != 'login' || 'register')){
-      // Continue to page.
+    if (!localStorage.getItem('token') && (to.name != 'login') && (to.name != 'register')){
+      // Authorization to login and register
       next({name : 'login'})
     } else {
-      // Not logged in, redirect to login.
+      // Logged in, everything fine
       next()
     }
-  });*/
+  });
 
 Vue.use(VueRouter);
 export default router

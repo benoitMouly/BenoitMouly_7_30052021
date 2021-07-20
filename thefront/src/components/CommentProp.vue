@@ -1,28 +1,21 @@
 <template>
-<div class="machin">
-   
-
-                    <div class="commentInfo">
-                        <div class="authorPic">
-                            <img :src="commentitem.user.picture" class="thePic"/>
-                        </div>
-                    <div class="authorName">
-                        <h5>{{commentitem.user.username}}</h5>
-                    </div>
-
-                    </div>
-
-                    <div class="theComment">
-                        <div class="comment">
-                            <p>{{commentitem.content}}</p>
-                        </div>
-                        <div class="buttonCommentErase">
-                            <!-- <button id='eraseButton' v-if="currentUser.userRight || currentUser.userId == commentitem.AuthorId" @click= "eraseComment()">Supprimer<font-awesome-icon icon="trash"/> -->
-                            <font-awesome-icon icon="trash" class="trash" v-if="currentUser.userRight || currentUser.userId == commentitem.AuthorId" @click= "eraseComment()"/>
-                        </div>
-                    </div>
-
-                
+<div class="mainBox">
+    <div class="commentInfo">
+        <div class="authorPic">
+            <img :src="commentitem.user.picture" class="thePic"/>
+        </div>
+        <div class="authorName">
+            <h5><a :href="$router.resolve({name: 'userProfile', params: { id : this.commentitem.user.id}}).href">{{commentitem.user.username}}</a></h5>
+        </div>
+    </div>
+        <div class="theComment">
+            <div class="comment">
+                <p>{{commentitem.content}}</p>
+            </div>
+            <div class="buttonCommentErase">
+                <font-awesome-icon icon="trash" class="trash" v-if="currentUser.userRight || currentUser.userId == commentitem.AuthorId" @click= "eraseComment()"/>
+            </div>
+        </div>    
 </div> 
 
 </template>
@@ -47,7 +40,7 @@ export default{
     },
      methods:{
 
-
+////// CURRENT USER
           getCurrentUser(){
       axios.get('http://localhost:8081/api/users/current', {
           headers:{
@@ -63,7 +56,7 @@ export default{
       },
 
 
-
+////// ERSARE COMMENT
       eraseComment(){
          const answer = window.confirm("Voulez vous vraiment supprimer ce commentaire ?");
          if(answer){
@@ -93,12 +86,12 @@ export default{
 
 <style scoped>
 
-.machin{
-background: #ffe5e3;
-border-radius: 3px;
-padding: 8px;
-margin-top: 2%;
-max-width: 100%;
+.mainBox{
+    background: #ffe5e3;
+    border-radius: 3px;
+    padding: 8px;
+    margin-top: 2%;
+    max-width: 100%;
 }
 
 
