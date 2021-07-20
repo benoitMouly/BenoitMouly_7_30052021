@@ -53,7 +53,7 @@ app.use('/api', userRoute); // pour enregistrer le routeur pour toutes les deman
 app.use('/api/posts', postRoute); // pour enregistrer le routeur pour toutes les demandes effectuées vers /api/sauces
 app.use('/api/comments', commentsRoute);
 
-// RESEST YOUR DB
+// RESET YOUR DB
 
 /*db.sequelize.sync({ force: true }).then(() => {
   console.log("Drop and re-sync db.");
