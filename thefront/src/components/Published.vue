@@ -18,20 +18,21 @@ export default{
     },
   data() {
     return {
-      posts: [],
-      post:[],
-     idPost: null,
-      titre: "",
-      comments: [],
-      content: "",
-      currentUser:{},
-      items: [],
-      comment:[],
+    posts: [],
+    post:[],
+    idPost: null,
+    titre: "",
+    comments: [],
+    content: "",
+    currentUser:{},
+    items: [],
+    comment:[],
     };
   },
 
    methods: {
 
+////// AFFICHER TOUS LES POSTS
 retrieveEveryPosts() {
       axios.get('http://localhost:8081/api/posts/')
         .then(response => {
@@ -41,30 +42,24 @@ retrieveEveryPosts() {
           console.log(e);
         });
     },
-
-       getCurrentUser(){
+//////////// OBTENIR L'UTILISATEUR ACTUEL
+getCurrentUser(){
       axios.get('http://localhost:8081/api/users/current', {
           headers:{
-        'Authorization': 'Bearer ' + localStorage.getItem('token')}
+          'Authorization': 'Bearer ' + localStorage.getItem('token')}
       })
-      .then(reponse => {
-          this.currentUser = reponse.data;
-          
-          
+        .then(reponse => {
+          this.currentUser = reponse.data; 
       })
       .catch(e => {
           console.log(e)
       })
       },
-
 },
-
 
 mounted(){
   this.retrieveEveryPosts();
-
 },
-
 
 }
 
@@ -73,8 +68,7 @@ mounted(){
 
 <style scoped>
 #lastPublished{
-
-    padding: -3%;
-    font-weight: 600;
+  padding: -3%;
+  font-weight: 600;
 }
 </style>

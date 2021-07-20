@@ -16,9 +16,6 @@ import publish from '../components/ToPublish.vue'
 import published from '@/components/Published.vue'
 import axios from 'axios'
 
-
-
-
 export default {
   name: 'Home',
   components: {
@@ -34,19 +31,19 @@ export default {
   },
 
   methods:{
-       getCurrentUser(){
+
+    getCurrentUser(){
       axios.get('http://localhost:8081/api/users/current', {
-          headers:{
+        headers:{
         'Authorization': 'Bearer ' + localStorage.getItem('token')}
       })
-      .then(reponse => {
-          this.currentUser = reponse.data;
-          
-      })
+    .then(reponse => {
+      this.currentUser = reponse.data;    
+    })
       .catch(e => {
           console.log(e)
       })
-      },
+    },
   },
 
   mounted(){
@@ -56,9 +53,11 @@ export default {
 </script>
 
 <style scoped>
+
 .logoHome{
   max-height: 10rem;
 }
+
 .home{
   height: 100%;
 }

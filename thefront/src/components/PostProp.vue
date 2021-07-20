@@ -1,44 +1,31 @@
 <template>
-    <!-- <div id="lastPublished"> -->
-        
-        
     <div class="publishedBox">
         <div class="cardPost">
-
-        <div class="thePost">
-        <p> Par <router-link :to="{ name: 'userProfile', params: { id : this.userId}}">{{items.user.username}}</router-link>,
-         le {{items.createdAt}}
-        <font-awesome-icon icon="trash" class="trash"  v-if="currentUser.userRight || currentUser.userId == items.userId" @click="erasePost()"/></p>
-        <h3 class="titlePost">{{items.title}} </h3>
-        <img class="imgPublished" :src="items.image">
-        </div>
-
+            <div class="thePost">
+                <p> Par <router-link :to="{ name: 'userProfile', params: { id : this.userId}}">{{items.user.username}}</router-link>,
+                le {{items.createdAt}}
+                <font-awesome-icon icon="trash" class="trash"  v-if="currentUser.userRight || currentUser.userId == items.userId" @click="erasePost()"/></p>
+                <h3 class="titlePost">{{items.title}} </h3>
+                <img class="imgPublished" :src="items.image">
+            </div>
             <div class="commentPublish">
                 <div class="theField"><input type="text" class="commentField"
-                name="name" required minlength="4" maxlength="800" size="auto" placeholder="{Ajoutez un Commentaire...}" v-model="content"/>
+                name="name" required minlength="4" maxlength="800" size="auto" pattern="^[a-zA-Z]+( [a-zA-Z]+)*$" placeholder="{Ajoutez un Commentaire...}" v-model="content"/>
                 </div>
                 <div class="theButtonSend">
                 <button id="buttonFieldComment" class="buttonComment" @click="addComment()">Envoyer <font-awesome-icon icon="arrow-circle-right"/></button>
                 </div>
             </div>
-
             <div class="andif" v-if="comments"> 
              <onecomment :commentitem="comment" v-for="comment in comments.slice().reverse()" :key="comment.id"/>
             </div>
-            
         </div>
     </div>
-        
-    <!-- </div> -->
 </template>
 
 <script>
 import axios from 'axios'
 import onecomment from './CommentProp.vue'
-
-
-
-
 
 export default{
     name: 'postunique',
@@ -48,21 +35,17 @@ export default{
     },
   data() {
     return {
-      posts: [],
-      post:[],
-      comments: [],
-      comment: onecomment,
-      content: "",
-      currentUser : {},
-        userId : this.items.userId
-      
+    posts: [],
+    post:[],
+    comments: [],
+    comment: onecomment,
+    content: "",
+    currentUser : {},
+    userId : this.items.userId
     };
   },
 
    methods: {
-
-
-
 ///////////////////////////////////// RETRIEVE COMMENTS
     retrieveEveryComments(){
         axios.get('http://localhost:8081/api/posts/'+this.items.idPost+'/comments/')
@@ -73,19 +56,21 @@ export default{
 ////////////////////////// ADD COMMENT
     addComment() {
         
+        const contentlength = this.content.length;
+
+        if (/\S/.test(this.content) && contentlength >= 4){
         axios.post('http://localhost:8081/api/comments/',{
 
         content : this.content,
         itemId: this.items.idPost
         },
         {
-                   headers: {
+        headers: {
 
           'Authorization': 'Bearer ' + localStorage.getItem('token')
         },
         
         })
-
         .then(reponse =>{
             this.items.comment = reponse.data
             this.id = reponse.data
@@ -96,11 +81,10 @@ export default{
         .catch(e => {
             console.log(e)
         })
+    }
     },
 
-
-
-    //////////////// CURRENT USER
+//////////////// CURRENT USER
        getCurrentUser(){
       axios.get('http://localhost:8081/api/users/current', {
           headers:{
@@ -117,7 +101,9 @@ export default{
 
 /////////////////////// POST DELETE ////////////////////
 erasePost(){
+
     const answer = window.confirm("Voulez vous vraiment supprimer cette publication ?");
+
     if(answer){
     axios.delete('http://localhost:8081/api/posts/'+this.items.idPost, {
         headers:{
@@ -144,8 +130,6 @@ mounted(){
   this.getCurrentUser();
   this.retrieveEveryComments();
 },
-
-
 
 }
 

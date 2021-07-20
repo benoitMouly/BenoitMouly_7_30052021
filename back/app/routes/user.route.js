@@ -21,10 +21,7 @@ router.get('/users/user/:id', auth, userController.getUniqueUser);
 //pour récupérer le user qui est connecté
 router.get('/users/current',  auth, multer, userController.getCurrentUser);
 
-//pour mettre à jour la photo du user connecté
-router.put('/users/current', auth, multer, userController.modifyUser);
-
 //pour supprimer le compte du user connecté
 router.delete('/users/current', auth, userController.deleteCurrentUser);
 
-module.exports = router; // pour exporter le router vers app.js
+module.exports = router;

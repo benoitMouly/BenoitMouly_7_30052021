@@ -10,9 +10,6 @@ exports.createComment = (req, res, next) => {
 
     db.posts.findOne({ where: { idPost: req.body.itemId}})
         .then(post => {
-           /* if (!post) {
-                return res.status(404).json({ error: 'Post introuvable !' })
-            }*/
             db.comments.create({
                 content: req.body.content,
                 IdPost: req.body.itemId,

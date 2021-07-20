@@ -2,15 +2,10 @@
   <div id="nav">
       <div id="mainBlock">
         <img src="./assets/icon-left-font-monochrome-black.svg" class="logoFullBlack"/>
-          <div class="menuElements" v-if='currentUser'><router-link to="/">Accueil</router-link> <!--| 
-          <router-link to="/profil" >Profil</router-link> | 
-          <router-link to="/UserProfile/:id">userProfile</router-link> -->
+          <div class="menuElements" v-if='currentUser'><router-link to="/">Accueil</router-link>
           | <a class="nav-link" href @click.prevent="logout">Déconnexion</a></div>
-
-
           <div class="menuElements" v-if="!currentUser"><router-link to="/register">Inscription</router-link> | 
           <router-link to="/login">Login</router-link></div>
-          
       </div>
         <router-view/>
   <div id="footer">
@@ -37,6 +32,7 @@
 .logoFullBlack{
   max-height: 2rem;
 }
+
 body {
   font-family: Avenir, Montserrat, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -51,8 +47,6 @@ body {
 #mainBlock{
   padding: 10px;
   background: #FFF;
-  /*border-bottom: solid 3px black;
-  margin: 0px -8px 0px -8px;*/
   a {
     font-weight: bold;
     color: #2c3e50;
@@ -72,17 +66,7 @@ body {
   margin: 0px -8px 0px -8px;
   max-width: 100%;
 }
-/*button{
-  padding: 5px;
-  background-color: rgba(0, 0, 0, 0.89);
-  border: 1px solid white;
-  outline: none;
-  font-weight: 700;
-  color: white;
-  border-radius: 100px;
-  font-size: 1em;
 
-}*/
 #buttonFieldSend{
   padding: 1.5%;
   background-color: green;
@@ -116,6 +100,7 @@ body {
 <script>
 import footerElement from '@/components/footer.vue'
 import axios from 'axios'
+
 export default{
   name : 'app',
   data(){
@@ -128,32 +113,30 @@ export default{
   },
  methods:{
 
-
-
-          getCurrentUser(){
-      axios.get('http://localhost:8081/api/users/current', {
-          headers:{
-        'Authorization': 'Bearer ' + localStorage.getItem('token')}
-      })
-      .then(reponse => {
- 
-                   this.currentUser = reponse.data;
-        
-          
-      })
-     .catch(error => {
-          console.log(error)
+  getCurrentUser(){
+    axios.get('http://localhost:8081/api/users/current', {
+      headers:{
+      'Authorization': 'Bearer ' + localStorage.getItem('token')}
+    })
+    .then(reponse => {
+      this.currentUser = reponse.data;  
+    })
+    .catch(error => {
+        console.log(error)
       })
       },
       
-     logout() {
-    localStorage.removeItem('token');
-    window.location.href = "/Bienvenue"
-  },
+////// DISCONNECT
 
+  logout() {
+    localStorage.removeItem('token');
+    window.location.href = "/login"
+  },
  },
+
  mounted() {
   this.getCurrentUser();
  }
 };
+
 </script>

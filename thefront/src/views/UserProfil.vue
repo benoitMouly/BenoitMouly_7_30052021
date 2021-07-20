@@ -1,35 +1,33 @@
 <template>
     <div id="mainBlockUserProfil">
         <div id="infoUser">
-        <div class="picUser">
-            <img :src="currentProfile.image" class="picProfile"/>
-               <!-- <div class="chooseFile" v-if="currentProfile.userRight || currentUser.userId == this.id">
-                <input  type="file" id="fileField" name="file" required ref="file">
-                </div> -->
-                <div class="btnSupp" v-if="currentUser.userId == this.id || currentUser.userRight">
-        <button id="eraseButton" @click="eraseUser()">Supprimer le compte <font-awesome-icon icon="user-slash"/></button>
+            <div class="picUser">
+                <img :src="currentProfile.image" class="picProfile"/>
+                    <div class="btnSupp" v-if="currentUser.userId == this.id || currentUser.userRight">
+            <button id="eraseButton" @click="eraseUser()">Supprimer le compte <font-awesome-icon icon="user-slash"/></button>
+        </div>
+            </div>
+            <div class="pseudo">
+            <h3>Profil de {{currentProfile.username}}</h3>
+            </div>
+        </div>
+            <h4>Ses contributions :</h4>
+            <p class="contributions" v-if="userPost == true">
+                {{currentProfile.posts}}</p>
+            <p v-if="userPost == false">Cet utilisateur n'a pour le moment rien publié</p>
+            <div v-for='post in userPost' :key='post.id'>
+                <postunique :items="post"/>
+            </div>
     </div>
-        </div>
-        <div class="pseudo">
-        <h3>Profil de {{currentProfile.username}}</h3>
-        </div>
-        </div>
-            <h4>Ses contributions : {{currentProfile.posts}}</h4>
-                <div v-for='post in userPost' :key='post.id'>
-            <postunique :items="post"/>
-                </div>
-    </div>
-
 </template>
 
 <script>
-//import published from '@/components/Published.vue';
 import postunique from '@/components/PostProp.vue'
 import axios from 'axios'
+
 export default {
   name: 'UserProfil',
   components: {
-    //published,
    postunique
   },
   data(){
@@ -47,15 +45,16 @@ export default {
   methods: {
 
 ///////////////// GET CURRENT PROFILE
-            getCurrentProfile(){
+    getCurrentProfile(){
 
-            axios.get('http://localhost:8081/api/users/user/'+this.id, {
+        axios.get('http://localhost:8081/api/users/user/'+this.id, {
           headers:{
         'Authorization': 'Bearer ' + localStorage.getItem('token')}
       })
       .then(reponse => {
           this.currentProfile = reponse.data;
           console.log(this.currentProfile)
+          //window.location.href = "/UserProfile/:id";
           
       })
       .catch(e => {
@@ -63,7 +62,7 @@ export default {
       })
   }, 
 /////////////// GET CURRENT USER
-            getCurrentUser(){
+    getCurrentUser(){
       axios.get('http://localhost:8081/api/users/current', {
           headers:{
         'Authorization': 'Bearer ' + localStorage.getItem('token')}
@@ -79,9 +78,9 @@ export default {
   }, 
 
 ///////////////// POST FOR 1 SPECIFIC USER
-  getPostsFromUser(){
+    getPostsFromUser(){
       axios.get('http://localhost:8081/api/posts/users/'+this.id, {
-                               headers:{
+            headers:{
         'Authorization': 'Bearer ' + localStorage.getItem('token')}
         })
       .then(reponse => {
@@ -92,7 +91,7 @@ export default {
 ////////////// GET ALL USERS
     getEveryUsers(){
         axios.get('http://localhost:8081/api/users', {
-                     headers:{
+             headers:{
         'Authorization': 'Bearer ' + localStorage.getItem('token')}
         })
         .then(reponse =>{
@@ -101,14 +100,14 @@ export default {
     },
 
 /////////////// ERASE USER
-eraseUser(){
-    const answer = window.confirm("Voulez vous vraiment supprimer ce profil ?");
-    if(answer){
-    axios.delete('http://localhost:8081/api/users/current', {
-        headers:{
-        'Content-Type': 'multipart/form-data',
-        'Authorization' : 'Bearer ' + localStorage.getItem('token')}
-    })
+    eraseUser(){
+        const answer = window.confirm("Voulez vous vraiment supprimer ce profil ?");
+        if(answer){
+            axios.delete('http://localhost:8081/api/users/current', {
+                headers:{
+                'Content-Type': 'multipart/form-data',
+                'Authorization' : 'Bearer ' + localStorage.getItem('token')}
+            })
     .then(reponse => {
         console.log(reponse)
         window.location.href = "/login";
@@ -126,10 +125,10 @@ eraseUser(){
 
 
   mounted(){
-        this.getCurrentUser();
-        this.getCurrentProfile();
-       this.getEveryUsers();
-       this.getPostsFromUser();
+    this.getCurrentUser();
+    this.getCurrentProfile();
+    this.getEveryUsers();
+    this.getPostsFromUser();
   },
 }
 </script>
@@ -145,11 +144,13 @@ eraseUser(){
     align-items: center;
 
 }
+
 .picProfile{
     width: 10rem;
     border-radius: 5%;
 
 }
+
 .pseudo{
     color: chocolate;
 }
