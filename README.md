@@ -13,7 +13,10 @@ PUIS
 <b>Concernant les droits administrateurs, vous devez les ajouter manuellement comme suit : <br/></b>
 UPDATE `USERS` SET `RIGHT` = 1 WHERE `id` = 1; (si votre id est le 1)
 
+
+
 <b>POUR REMETTRE LA BDD à 0</b>
 
-Décommentez la partie " reset your db " dans back/app.js
+Décommentez la partie " reset your db " dans back/app.js et redémarrez le serveur back.
+Si une erreur cascade/clé étrangère survient après un reset, redémarrez une deuxième fois le serveur pour supprimer les eventuelles particules
 
