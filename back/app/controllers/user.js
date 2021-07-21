@@ -75,3 +75,31 @@ exports.deleteCurrentUser = (req, res, next) => {
       })
       .catch(error => res.status(500).json({ error: error.message }));
 };
+
+// Modification photo
+exports.modifyUser = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, config.secret);
+    const userId = decodedToken.userId;
+
+    db.user.findOne({ where: { id: userId } })
+        .then(user => {
+            if(user.picture) {
+                const filename = user.picture.split('/images/')[1];
+                console.log(user.picture)
+                fs.unlink(`images/${filename}`, () => { 
+                    user.update({
+                        picture: ( req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null )
+                    })
+                    .then(() => res.status(200).json({ message: 'Utilisateur modifié'}))
+                    .catch(error => res.status(400).json({ error: 'Impossible de mettre à jour' }));
+                });
+            }
+            user.update({
+                picture: ( req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null )
+            })
+            .then(() => res.status(200).json({ message: 'Utilisateur modifié' }))
+            .catch(error => res.status(400).json({ error: 'Impossible de mettre à jour' }));
+        })
+        .catch(error => res.status(404).json({ error: 'Utilisateur non trouvé' }))
+  };

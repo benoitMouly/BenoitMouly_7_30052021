@@ -74,7 +74,6 @@ export default{
         .then(reponse => {
           
           this.selectedFile = reponse.data.id;
-          console.log(reponse.data.id)
           window.location.reload();
 
         },

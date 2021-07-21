@@ -24,4 +24,7 @@ router.get('/users/current',  auth, multer, userController.getCurrentUser);
 //pour supprimer le compte du user connecté
 router.delete('/users/current', auth, userController.deleteCurrentUser);
 
+//pour modifer l'image de son compte
+router.put('/users/myprofil', auth, multer, userController.modifyUser);
+
 module.exports = router;
