@@ -47,10 +47,10 @@ app.use(hpp())
 
 
 app.use(cors())
-app.use(bodyParser.json()); // pour transformer le corps de la requête en objet JS
+app.use(bodyParser.json()); 
 app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/api', userRoute); // pour enregistrer le routeur pour toutes les demandes effectuées vers /api/auth
-app.use('/api/posts', postRoute); // pour enregistrer le routeur pour toutes les demandes effectuées vers /api/sauces
+app.use('/api', userRoute); 
+app.use('/api/posts', postRoute); 
 app.use('/api/comments', commentsRoute);
 
 // RESET YOUR DB
