@@ -5,7 +5,12 @@
                 <img :src="currentProfile.image" class="picProfile"/>
                     <div class="btnSupp" v-if="currentUser.userId == this.id || currentUser.userRight">
             <button id="eraseButton" @click="eraseUser()">Supprimer le compte <font-awesome-icon icon="user-slash"/></button>
-        </div>
+                    </div>
+                    <div class ="btnModify" v-if="currentUser.userId == this.id || currentUser.userRight">
+                        <input @change='onFileSelected' type="file" id="fileField" name="image_field" required
+                        accept="image/png, image/jpeg, image/bpm, image/jpg, image/gif">
+            <button id="updateButton" @click="updateUser()">Changer la photo <font-awesome-icon icon="camera"/></button>
+                    </div>
             </div>
             <div class="pseudo">
             <h3>Profil de {{currentProfile.username}}</h3>
@@ -120,6 +125,35 @@ export default {
     }
 },
 
+///////////////// UPDATE USER
+    onFileSelected(event){
+    
+        this.selectedFile = event.target.files[0];
+        console.log(this.selectedFile)
+    },     
+ 
+    updateUser(){
+        const formData = new FormData()
+        formData.append('image', this.selectedFile)
+        axios.put('http://localhost:8081/api/users/myprofil', formData,{
+                            headers:{
+                'Content-Type': 'multipart/form-data',
+                'Authorization' : 'Bearer ' + localStorage.getItem('token')}
+        })
+
+        .then(() => {
+            window.location.reload(false);
+        },
+
+        error => {
+            this.message =
+                (error.response && error.response.data) ||
+                error ||
+                error.toString();
+                this.successful = false;
+            }
+        )}
+
 
 },
 
@@ -155,4 +189,15 @@ export default {
     color: chocolate;
 }
 
+.picUser{
+    display: block;
+    text-align: center;
+}
+.btnModify{
+    display: block;
+    margin-top: 2rem;
+    text-align: center;
+    border: solid 2px #3e7f8f;
+    padding: 8px;
+}
 </style>

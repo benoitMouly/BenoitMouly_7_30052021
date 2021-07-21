@@ -95,6 +95,20 @@ body {
   transform: scale((1.07));
 }
 
+#updateButton{
+  padding: 1.5%;
+  color: #FFF;
+  background: #3e7f8f;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: .4s ease;
+  margin-top: 1rem;
+}
+
+#updateButton:hover{
+  transform: scale((1.07));
+}
 </style>
 
 <script>

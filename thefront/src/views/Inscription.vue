@@ -97,8 +97,6 @@ export default {
     onFileSelected(event){
       this.selectedFile = event.target.files[0];
       console.log(this.selectedFile)
-
-      
     },     
  
     handleRegister() {
