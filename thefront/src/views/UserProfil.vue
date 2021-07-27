@@ -3,8 +3,11 @@
         <div id="infoUser">
             <div class="picUser">
                 <img :src="currentProfile.image" class="picProfile"/>
-                    <div class="btnSupp" v-if="currentUser.userId == this.id || currentUser.userRight">
+                    <div class="btnSupp" v-if="(currentUser.userId == this.id) && (currentUser.userRight == false)">
             <button id="eraseButton" @click="eraseUser()">Supprimer le compte <font-awesome-icon icon="user-slash"/></button>
+                    </div>
+                     <div class="btnSupp" v-if="currentUser.userRight == true">
+            <button id="eraseButton"  @click="eraseUserAdmin()">Supprimer le compte Admin <font-awesome-icon icon="user-slash"/></button>
                     </div>
                     <div class ="btnModify" v-if="currentUser.userId == this.id || currentUser.userRight">
                         <input @change='onFileSelected' type="file" id="fileField" name="image_field" required
@@ -124,7 +127,26 @@ export default {
     })
     }
 },
+////////// ERASE USER by ADMIN
+    eraseUserAdmin(){
+        const answer = window.confirm("Voulez vous vraiment supprimer ce profil ?");
+        if(answer){
+            axios.delete('http://localhost:8081/api/users/user/'+this.id, {
+                headers:{
+                'Content-Type': 'multipart/form-data',
+                'Authorization' : 'Bearer ' + localStorage.getItem('token')}
+            })
+    .then(reponse => {
+        console.log(reponse)
+        window.location.href = "/";
 
+
+    })
+    .catch(e => {
+        console.log(e)
+    })
+    }
+},
 ///////////////// UPDATE USER
     onFileSelected(event){
     
@@ -186,7 +208,7 @@ export default {
 }
 
 .pseudo{
-    color: chocolate;
+    color: rgb(46, 41, 87);
 }
 
 .picUser{
@@ -199,5 +221,6 @@ export default {
     text-align: center;
     border: solid 2px #3e7f8f;
     padding: 8px;
+    font-weight: bold;
 }
 </style>

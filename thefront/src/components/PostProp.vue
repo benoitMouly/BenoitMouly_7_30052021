@@ -159,12 +159,13 @@ mounted(){
 #buttonFieldComment{
     margin-top: 1rem;
     height: 2.5rem;
-    background-color: green;
+    background-color: rgb(22, 87, 22);
     color: white;
     border: none;
     border: solid 2px white;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
     transition: .4s ease;
 }
 

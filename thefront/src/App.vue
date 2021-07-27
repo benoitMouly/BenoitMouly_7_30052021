@@ -69,11 +69,12 @@ body {
 
 #buttonFieldSend{
   padding: 1.5%;
-  background-color: green;
+  background-color: rgb(7, 94, 7);
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-weight: bold;
   transition: .4s ease;
 }
 
@@ -83,12 +84,13 @@ body {
 
 #eraseButton{
   padding: 1.5%;
-  color: #FFF;
-  background: #C40030;
+  color: rgb(255, 255, 255);
+  background: #68011a;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: .4s ease;
+  font-weight: bolder;
 }
 
 #eraseButton:hover{
@@ -98,12 +100,13 @@ body {
 #updateButton{
   padding: 1.5%;
   color: #FFF;
-  background: #3e7f8f;
+  background: #26515c;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: .4s ease;
   margin-top: 1rem;
+  font-weight: bolder;
 }
 
 #updateButton:hover{

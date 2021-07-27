@@ -6,25 +6,28 @@ const userController = require('../controllers/user'); // pour importer les cont
 const authController = require('../controllers/auth.js'); // pour importer les controleurs authentification
 
 
-//pour créer un nouveau user 
+//Création d'un user
 router.post('/auth/signup', multer, authController.register);
 
-//pour connecter le user 
+//Connection de l'utilisateur
 router.post('/auth/login', authController.login);
 
-//pour récupérer tous les users
+//Récupération de tous les users
 router.get('/users', auth, userController.getAllUsers);
 
-//pour récupérer un seul user
+//Récupération d'un seul user
 router.get('/users/user/:id', auth, userController.getUniqueUser);
 
-//pour récupérer le user qui est connecté
+//Récupération du user connecté
 router.get('/users/current',  auth, multer, userController.getCurrentUser);
 
-//pour supprimer le compte du user connecté
+///Suppression de l'user actuel
 router.delete('/users/current', auth, userController.deleteCurrentUser);
 
-//pour modifer l'image de son compte
+//Modification image
 router.put('/users/myprofil', auth, multer, userController.modifyUser);
+
+//Suppression par l'administrateur
+router.delete('/users/user/:id', auth, userController.deleteUserAdmin);
 
 module.exports = router;

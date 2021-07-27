@@ -103,3 +103,22 @@ exports.modifyUser = (req, res, next) => {
         })
         .catch(error => res.status(404).json({ error: 'Utilisateur non trouvé' }))
   };
+
+// Suppression par l'admin
+  exports.deleteUserAdmin = (req, res, next) => {
+    db.user.findOne({ where: { id: req.params.id } })
+      .then(user => {
+        if(user.picture) {
+            const filename = user.picture.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () => {
+                user.destroy({ where: { id: req.params.id } })
+                .then(() => res.status(200).json({ message: 'Compte supprimé'}))
+                .catch(error => res.status(400).json({ error: 'Impossible de supprimer' }));
+            });
+        }
+       user.destroy({ where: { id: req.params.id } })
+        .then(() => res.status(200).json({ message: 'Compte supprimé'}))
+        .catch(error => res.status(400).json({ error: 'Impossible de supprimer' }));
+      })
+      .catch(error => res.status(500).json({ error: error.message }));
+};
